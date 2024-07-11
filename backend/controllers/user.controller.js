@@ -10,7 +10,7 @@ const getUserProfile = async (req, res) => {
     });
 
     const userProfile = await userRes.json();
-    const repoRes = await fetch(userProfile.repos_url, {
+    const repoRes = await fetch(userProfile?.repos_url, {
       headers: {
         authorization: `token ${process.env.GITHUB_API_KEY}`,
       },
@@ -20,7 +20,7 @@ const getUserProfile = async (req, res) => {
     res.status(200).json({ userProfile, repos });
   } catch (error) {
     res.status(500).json({ error: error.message });
-    console.log(error.message);
+    console.log(error.message, "getUserProfile error");
   }
 };
 
