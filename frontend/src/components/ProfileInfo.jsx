@@ -65,7 +65,7 @@ const ProfileInfo = ({ userProfile }) => {
           <p className="">{memberSince}</p>
         </div>
 
-        {userProfile?.Email && (
+        {userProfile?.email && (
           <div className="my-2">
             <p className="text-gray-600  font-bold text-sm">Email address:</p>
             <p className="">{userProfile.Email}</p>
