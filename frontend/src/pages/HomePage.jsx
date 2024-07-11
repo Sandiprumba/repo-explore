@@ -21,9 +21,10 @@ const HomePage = () => {
       const res = await fetch(`/api/users/profile/${username}`);
       const { repos, userProfile } = await res.json();
 
-      repos.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+      // repos.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+      const sortedRepos = repos ? [...repos].sort((a, b) => new Date(b.created_ay) - new Date(a.created_at)) : [];
 
-      setRepos(repos);
+      setRepos(sortedRepos);
       setUserProfile(userProfile);
 
       return { userProfile, repos };
