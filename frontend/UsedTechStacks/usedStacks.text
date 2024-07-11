@@ -1,0 +1,49 @@
+VITE:: JAVASCRIPT
+// FRONTEND STACK USED
+
+npm create vite@latest .
+npm install
+npm run dev
+
+changed the port at vite config server :{port:3000}
+
+
+TAILWIND CSS VITE INSTALL 
+npm install -D tailwindcss postcss autoprefixer
+npx tailwindcss init -p
+
+tailwind config
+/** @type {import('tailwindcss').Config} */
+export default {
+  content: [
+    "./index.html",
+    "./src/**/*.{js,ts,jsx,tsx}",
+  ],
+  theme: {
+    extend: {},
+  },
+  plugins: [],
+}
+
+index css changes of tailwind
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+REACT ROUTER DOM FOR THE NAVIGATION SO WE CAN HAVE THE FRONTPAGE
+REACT HOT TOAST FOR DISPLAYING THE TOAST
+REACT ICONS FOR THE ICONS
+AVATAR PLACEHOLDER
+FLOW BITE
+ICON8 FOR THE ICONS SVG
+API.GITHUB.COM(https://api.github.com/users/username)
+
+
+//USAGE OF BACKEND
+IMPLEMENT AUTHENTICATION
+SECURE THE .ENV FILE SO WONT BE VISIBLE IN DEV TOOLS
+FETCH THE DATA IN CLIENT ...
+
+
+MONGO DB
+mongodb+srv://repoexplore:repoexplore20@cluster0.ejtzeq2.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
