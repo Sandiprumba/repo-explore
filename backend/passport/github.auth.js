@@ -12,15 +12,20 @@ passport.deserializeUser(function (obj, done) {
   done(null, obj);
 });
 
+//use the GithubStrategy within passport
+//strategies in passport require a verify function which accept
+
+//credentials in this case an accesstoken refresh token and github
+//profile and invoke a callback with a user object
 passport.use(
   new GitHubStrategy(
     {
       clientID: process.env.GITHUB_CLIENT_ID,
       clientSecret: process.env.GITHUB_CLIENT_SECRET,
-      callbackURL: "https://mern-repo-explore.onrender.com/api/auth/github/callback",
+      callbackURL: "/api/auth/github/callback",
     },
     async function (accessToken, refreshToken, profile, done) {
-      const user = await User.findOne({ username: profile.username });
+      const user = await User.findOne({ username: profile.username }).catch((err) => done(err));
 
       //if doesnt find the user then sign up
       if (!user) {

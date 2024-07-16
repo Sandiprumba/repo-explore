@@ -1,6 +1,6 @@
 import User from "../models/user.models.js";
 
-const getUserProfile = async (req, res) => {
+const getUserProfileAndRepos = async (req, res) => {
   const { username } = req.params;
   console.log(username);
   try {
@@ -9,7 +9,7 @@ const getUserProfile = async (req, res) => {
         authorization: `token ${process.env.GITHUB_API_KEY}`,
       },
     });
-    console.log(userRes, "Sandip rumba github");
+    console.log(userRes, "git hub api result ");
 
     const userProfile = await userRes.json();
     const repoRes = await fetch(userProfile.repos_url, {
@@ -18,7 +18,8 @@ const getUserProfile = async (req, res) => {
       },
     });
     const repos = await repoRes.json();
-
+    console.log(repos, "user repos");
+    console.log(userProfile, "user profile");
     res.status(200).json({ userProfile, repos });
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -53,7 +54,6 @@ const likeProfile = async (req, res) => {
     res.status(200).json({ message: "User liked successfully" });
   } catch (error) {
     res.status(500).json({ error: error.message });
-    console.log(error.message);
   }
 };
 
@@ -63,8 +63,7 @@ const getLikes = async (req, res) => {
     res.status(200).json({ likedBy: user.likedBy });
   } catch (error) {
     res.status(500).json({ error: error.message });
-    console.log(error.message);
   }
 };
 
-export { getUserProfile, likeProfile, getLikes };
+export { getUserProfileAndRepos, likeProfile, getLikes };

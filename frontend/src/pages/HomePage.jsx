@@ -5,9 +5,11 @@ import Repos from "../components/Repos";
 import { useCallback, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { Spinner } from "../components/Spinner";
+import { useAuthContext } from "../context/AuthContext";
 
 const HomePage = () => {
-  const [userProfile, setUserProfile] = useState(null);
+  const { authUser, loading: authLoading } = useAuthContext();
+  const [userProfiles, setUserProfile] = useState(null);
   const [repos, setRepos] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -15,16 +17,17 @@ const HomePage = () => {
 
   //MAKE API CALL TO BACKEND
 
-  const getUserProfileAndRepos = useCallback(async (username = "Sandiprumba") => {
+  const getUserProfileAndRepos = useCallback(async (username) => {
+    if (!username) return;
     setLoading(true);
     try {
       const res = await fetch(`/api/users/profile/${username}`);
       const { repos, userProfile } = await res.json();
 
       // repos.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
-      const sortedRepos = repos ? [...repos].sort((a, b) => new Date(b.created_ay) - new Date(a.created_at)) : [];
+      repos ? [...repos].sort((a, b) => new Date(b.created_ay) - new Date(a.created_at)) : [];
 
-      setRepos(sortedRepos);
+      setRepos(repos);
       setUserProfile(userProfile);
 
       return { userProfile, repos };
@@ -36,8 +39,10 @@ const HomePage = () => {
   }, []);
 
   useEffect(() => {
-    getUserProfileAndRepos();
-  }, [getUserProfileAndRepos]);
+    if (authUser && !authLoading) {
+      getUserProfileAndRepos(authUser.username);
+    }
+  }, [getUserProfileAndRepos, authUser, authLoading]);
 
   //search feature implementations
   const onSearch = async (e, username) => {
@@ -71,7 +76,7 @@ const HomePage = () => {
       <Search onSearch={onSearch} />
       {repos.length > 0 && <SortRepos onSort={onSort} sortType={sortType} />}
       <div className="flex gap-4 flex-col lg:flex-row justify-center items-start">
-        {userProfile && !loading && <ProfileInfo userProfile={userProfile} />}
+        {userProfiles && !loading && <ProfileInfo userProfile={userProfiles} />}
         {!loading && <Repos repos={repos} />}
         {loading && <Spinner />}
       </div>
